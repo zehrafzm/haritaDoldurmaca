@@ -1,6 +1,9 @@
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import { useWindowDimensions,ScrollView, scrollViewRef } from 'react-native';
+import { AdEventType, BannerAd, BannerAdSize, RewardedAdEventType, RewardedInterstitialAd, TestIds } from 'react-native-google-mobile-ads';
+
+
 
 
 const HomeScreen = ({ navigation }) => {
@@ -16,8 +19,59 @@ const HomeScreen = ({ navigation }) => {
   
  // ca-app-pub-1691438736697293/1848331308
   //"expo-build-properties",, app.json plugin
+  const [rewardedInterstitialLodaded,setRewardedInterstitialLoaded]= useState(false);
+  const rewardedInterstitial = useRef(null);
 
+
+  const loadRewardedInterstitial = ()=>{
+      const unsubscribeLoaded = rewardedInterstitial.addAdEventListener(
+        RewardedAdEventType.LOADED,
+        () =>{
+          setRewardedInterstitialLoaded(true);
+        }
+      );
+      const unsubscribeEarned = rewardedInterstitial.addAdEventListener(
+        RewardedAdEventType.EARNED_REWARD,
+        () =>{
+          setRewardedInterstitialLoaded(false);
+        }
+      );
+
+      const unsubscribeClosed = rewardedInterstitial.addAdEventListener(
+        AdEventType.CLOSED,
+        ()=>{
+          setRewardedInterstitialLoaded(false);
+          rewardedInterstitial.load();
+        }
+      );
+      rewardedInterstitial.load();
+      return ()=> {
+        unsubscribeLoaded();
+        unsubscribeClosed();
+        unsubscribeEarned();
+
+      }
+
+  };
   
+  useEffect(() => {
+    const unsubscribeRewardedInterstitialEvents = loadRewardedInterstitial();
+    return unsubscribeRewardedInterstitialEvents;
+  }, []);
+
+  const showRewardedInterstitial = () => {
+    if (rewardedInterstitial.current) {
+      rewardedInterstitial.current.show();
+    } else {
+      console.log('Rewarded interstitial ad not loaded yet');
+    }
+  };
+
+  const AdNavigation = (go2)=>{
+    showRewardedInterstitial();
+    navigation.navigate(go2);
+
+  }
   return (
     <ScrollView
       ref={scrollViewRef}
@@ -38,14 +92,16 @@ const HomeScreen = ({ navigation }) => {
         <View>
         <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Kirikli')}
-      >
+        onPress={() => AdNavigation("Kirikli")
+}
+        >
         <Text style={styles.buttonText}>Kırıklı Dağlar</Text>
       </Pressable>
        
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Kivrimli')}
+        onPress={() => AdNavigation("Kivrimli")
+        }
       >
         <Text style={styles.buttonText}>Kıvrımlı Dağlar</Text>
       </Pressable>
@@ -53,7 +109,8 @@ const HomeScreen = ({ navigation }) => {
           
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Volkanik2')}
+        onPress={() => AdNavigation("Volkanik2")
+}
       >
         <Text style={styles.buttonText}>Volkanik Dağlar</Text>
       </Pressable>
@@ -74,7 +131,8 @@ const HomeScreen = ({ navigation }) => {
         <View>
         <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Delta')}
+        onPress={() => AdNavigation("Delta")
+}
       >
         <Text style={styles.buttonText}>Delta Ovaları</Text>
       </Pressable>
@@ -83,7 +141,8 @@ const HomeScreen = ({ navigation }) => {
      
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Karstik')}
+        onPress={() => AdNavigation("Karstik")
+}
       >
         <Text style={styles.buttonText}>Karstik Ovalar</Text>
       </Pressable>
@@ -91,7 +150,8 @@ const HomeScreen = ({ navigation }) => {
      
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('VolkanikO')}
+        onPress={() => AdNavigation("VolkanikO")
+}
       >
         <Text style={styles.buttonText}>Volkanik Ovalar</Text>
       </Pressable>
@@ -103,13 +163,15 @@ const HomeScreen = ({ navigation }) => {
 
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Platolar')}
+        onPress={() => AdNavigation("Platolar")
+}
       >
         <Text style={styles.buttonText}>Platolar</Text>
       </Pressable>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('Akarsular')}
+        onPress={() => AdNavigation("Akarsular")
+}
       >
         <Text style={styles.buttonText}>Akarsular</Text>
       </Pressable>
@@ -124,51 +186,54 @@ const HomeScreen = ({ navigation }) => {
         <View>
         <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('VolkanikG')}
+        onPress={() => AdNavigation("VolkanikG")
+}
       >
         <Text style={styles.buttonText}>Volkanik Göller</Text>
       </Pressable>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('KarstikG')}
+        onPress={() => AdNavigation("KarstikG")
+}
       >
         <Text style={styles.buttonText}>Karstik Göller</Text>
       </Pressable>
         <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('VolkanikSetG')}
+        onPress={() => AdNavigation("VolkanikSetG")
+}
       >
         <Text style={styles.buttonText}>Volkanik Set Göller</Text>
       </Pressable>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('AluvyonG')}
+        onPress={() => AdNavigation("AluvyonG")
+}
       >
         <Text style={styles.buttonText}>Alüvyon Set Göller</Text>
       </Pressable>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('KiyiSetG')}
+        onPress={() => AdNavigation("KiyiSetG")
+}
       >
         <Text style={styles.buttonText}>Kıyı Set Göller</Text>
       </Pressable>
       <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate('HeyelanSetG')}
+        onPress={() => AdNavigation("HeyelanSetG")
+}
       >
         <Text style={styles.buttonText}>Heyelan Set Göller</Text>
       </Pressable>
         </View>
       )      } 
       </Pressable>
-      
-      
-      
-      
-      
-      
-      
-      
+      <BannerAd
+        unitId= {TestIds.BANNER}
+        size={BannerAdSize.LARGE_BANNER}
+        requestOptions={{requestNonPersonalizedAdsOnly:true}}
+      />
       
       
       

@@ -46,6 +46,16 @@ function Kirikli() {
 
   const [answers,setAnswers]= useState([
     {
+      x: 0,
+      y: 0,
+      minX: 0,
+      maxX: 0.15,
+      minY: 0,
+      maxY: 0.26,
+      name: "MERIC",
+      isim: "Meriç"
+    },
+    {
         x: 0,
         y: 0,
         minX: .7,
@@ -78,16 +88,6 @@ function Kirikli() {
     {
         x: 0,
         y: 0,
-        minX: 0,
-        maxX: 0.15,
-        minY: 0,
-        maxY: 0.26,
-        name: "MERIC",
-        isim: "Meriç"
-      },
-    {
-        x: 0,
-        y: 0,
         minX: 0.02,
         maxX: 0.22,
         minY: 0.1,
@@ -98,8 +98,8 @@ function Kirikli() {
     {
         x: 0,
         y: 0,
-        minX: .15,
-        maxX: .35,
+        minX: .1,
+        maxX: .3,
         minY: .31,
         maxY: .51,
         name: "MENEMEN",
@@ -387,12 +387,12 @@ function Kirikli() {
       >
       <Draggable
               key={999999}
-              x={.8* windowWidth}
-              y={.14* containerHeight}
-              minX={.8* windowWidth}
-              maxX={.8* windowWidth}
-              minY={.14* containerHeight}  
-              maxY={.14* containerHeight}             
+              x={.15* windowWidth}
+              y={.26* containerHeight}
+              minX={.15* windowWidth}
+              maxX={.15* windowWidth}
+              minY={.26* containerHeight}  
+              maxY={.26* containerHeight}             
             >
             {/**
                       { showText&&    <Text style={{color:"green"}}>doğru!!!</Text> }
@@ -408,7 +408,7 @@ function Kirikli() {
                 }}
                 
               >
-                <Text style={{padding:2, color:"whitesmoke",fontSize:aspectRatio*10}} >Çarşamba</Text>
+                <Text style={{padding:2, color:"whitesmoke",fontSize:aspectRatio*10}} >Meriç</Text>
               </View>
             </Draggable>
       {/**
